@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# script to convert a hexcode output into xrdb format
+# edited to fit my xrdb theme idea
+#
+# Original Source: http://blog.z3bra.org/2015/06/vomiting-colors.html
+#
+# Author: Till Mahlburg
+# License: CC0
+
+CPT=0
+while read -r HEXCODE; do
+    printf '#define c%d %s\n' "$CPT" "$HEXCODE"
+    printf '*color%d: c%d\n' "$CPT" "$CPT"
+    CPT=$((CPT + 1))
+done | column -t

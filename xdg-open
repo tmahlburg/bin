@@ -1,0 +1,47 @@
+#!/bin/sh
+
+# Wrapper script for /usr/bin/xdg-open
+#
+# Author: Till Mahlburg
+# License: GPLv3
+
+# helper functions
+# source: http://www.etalabs.net/sh_tricks.html
+fnmatch () {
+	case "$2" in
+		$1) return 0 ;;
+		*) return 1 ;; esac ;
+}
+
+if fnmatch 'a??*' "$var" ; then ... ; fi
+
+case "${1%%:*}" in
+	http|https|*.mhtml)
+		if fnmatch 'https://store.steampowered.com/*' "$1" ; then
+			exec /usr/bin/xdg-open "steam://openurl/$1"
+		else
+			exec vivaldi-stable "$1"
+		fi
+		;;
+	*.pdf)
+		exec qpdfview "$1"
+		;;
+	*.gif|*.jpg|*.png|*.jpeg|*.webp|*.tif|*.tiff)
+		exec qview "$1"
+		;;
+  *.mp4|*.mkv|*.3gp|*.avi)
+    exec mpv "$1"
+	mailto)
+		exec thunderbird "$1"
+		;;
+	*.mkv|*.mp4|*.avi|*.mov|*.3gp|*.webm|*.wmv)
+		exec mpv "$1"
+		;;
+	*)
+		if file "$1" | grep text ; then
+			exec alacritty -e kak "$1"
+	    fi
+		test -d "$1" && exec pcmanfm-qt "$1"
+		exec /usr/bin/xdg-open "$@"
+		;;
+esac

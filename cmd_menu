@@ -1,0 +1,13 @@
+#!/bin/zsh
+# simple oneliner to pick an executable to run
+# license: CC0
+
+# part 1                            | part 2      | 3   | part 4          | part 5
+echo "${(k)commands} ${(k)aliases}" | tr " " "\n" | fzy | sed "s/$/ \&!/" | zsh
+
+# explanation:
+# part 1: list all commands and aliases, seperated by single spaces. This only works on zsh!
+# part 2: convert spaces to newlines
+# part 3: pick one using fzy
+# part 4: add &! to the end to disown the used command
+# part 5: run the chosen command

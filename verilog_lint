@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# This script converts iverilog output to the gcc format.
+#
+# Author: Till Mahlburg
+# License: CC0
+
+iverilog -Wall "$1" 2>&1 | sed -e 's/:/&1: error:/2'
+rm a.out

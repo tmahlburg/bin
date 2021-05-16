@@ -1,0 +1,56 @@
+#! /bin/sh
+
+######################################################
+# Name: benchscript
+#
+# Runs an application via a terminal-emulator n times.
+#
+# Usage: benchscript [-t terminal command]
+#    [-a command to be run] [-n times it should be run]
+#
+# License: GPLv3
+#
+# Version: 1.0
+# Author: Till Mahlburg
+# Date of Creation: 2018-02-07
+#######################################################
+
+# Functions
+
+# Runs the given parameters for the given amount of times
+benchmark () {
+    for i in $(seq "$3")
+        do $1 "$2"
+    done
+}
+
+# Main functionality. Evaluates the given arguments.
+
+main () {
+      local usage
+      usage="$(basename $0) [-t terminal command] [-a command to be run] [-n times it should be run]"
+      local terminal
+      terminal="urxvt -e"
+      local command
+      command="dash"
+      local times
+      times=25
+
+
+      while getopts "ht:a:n:" opt; do
+              case $opt in
+                      t )     terminal=$OPTARG ;;
+                      a )     command=$OPTARG ;;
+                      n )     times=$OPTARG ;;
+                      h )     echo "$usage"
+                              exit 0 ;;
+                      \? )    echo "$usage"
+                              exit 1 ;;
+              esac
+      done
+      shift $((OPTIND - 1))
+
+      benchmark "$terminal" "$command" "$times";
+
+}
+main "$@"

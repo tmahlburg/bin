@@ -1,0 +1,94 @@
+#! /bin/sh
+
+#####################################################
+# Name: limout
+#
+# This program is intended to be used as a filter on
+# shell output, and it will limit it to a given
+# line length for better readability.
+#
+# Usage: limout [-h]
+#
+# License: GPLv3
+#
+# TODO: Fix cut bug on cutting non ASCII-chars in
+# parts
+#
+# Version: 0.2
+# Author: Till Mahlburg
+# Date of Creation: 2018-06-10
+######################################################
+
+# default settings
+MAX_LINE_LENGTH=80
+MIN_LINE_LENGTH=25
+
+# splits a given line at the nth character, with
+# n=MAX_LINE_LENGTH
+split_at_char_n () {
+	# given line
+    local line_to_split
+    line_to_split="$1"
+    # length of the given line
+    local line_length
+    line_length=${#line_to_split}
+	# current position in line, going from back to front.
+    local pivot
+    pivot=$((MAX_LINE_LENGTH + 1))
+
+	# split line as often as needed (until current character
+	# is at a earlier position than the set maximum)
+    while [ "$pivot" -lt "$line_length" ]; do
+		# get character that determines the word to do the split in front of
+        local first_char_pos
+        first_char_pos=$((pivot - MAX_LINE_LENGTH))
+		# cut of line at nearest space
+        local limited_string
+        limited_string="$(echo "$line_to_split" \
+		| cut -c $first_char_pos-$pivot | rev | cut -d ' ' -f 2- | rev)"
+		if [ "$limited_string" = "" ]; then
+        	limited_string="$(echo "$line_to_split" \
+			| cut -c $first_char_pos-$pivot | rev | cut -d '-' -f 2- | rev)"
+		fi
+        echo "$limited_string"
+        local limited_string_length
+        limited_string_length=${#limited_string}
+        pivot=$((pivot + limited_string_length))
+    done
+
+    echo "$line_to_split" | cut -c $((pivot - MAX_LINE_LENGTH))-
+}
+
+main () {
+    local usage
+    usage="$(basename "$0") [-h] [-n MAX_LINE_LENGTH]\\nActs as filter for stdout."
+
+	# parse options
+    while getopts "n:h" opt; do
+        case $opt in
+            n )     MAX_LINE_LENGTH="$OPTARG" ;;
+            h )     echo "$usage"
+                    exit 0 ;;
+            \? )    echo "$usage"
+                exit 1 ;;
+        esac
+    done
+    shift $((OPTIND - 1))
+
+	# check if line length is high enough
+	if [ "$MAX_LINE_LENGTH" -lt "$MIN_LINE_LENGTH" ]; then
+		echo "The line length provided is smaller than the given minimum. Please use a longer line length."
+		exit 1
+	fi
+
+	# read lines and split if necessary
+    while read -r line; do
+        if [ ${#line} -gt "$MAX_LINE_LENGTH" ]; then
+            split_at_char_n "$line";
+        else
+            echo "$line"
+        fi
+    done < "/dev/stdin"
+}
+
+main "$@"

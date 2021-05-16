@@ -1,0 +1,69 @@
+#! /bin/sh
+
+#####################################################
+# Name: xtc
+#
+# Converts normal .Xresources color schemes to my
+# personal theme format and prints the result to
+# stdout
+#
+# Usage: xtc <filename>
+#
+# TODO: Use additional informations, like background,
+# foreground and cursor
+#
+# License: GPLv3
+#
+# Version: 0.1
+# Author: Till Mahlburg
+# Date of Creation: 2017-11-10
+######################################################
+
+# Functions
+
+# Assign the colors to the corresponding variables
+assign_colors () {
+    for i in $(seq 0 15); do
+        tmp="$(grep color"$i": "$FILENAME" | awk '{print $2}')"
+        eval "c$i=$tmp"
+    done
+}
+
+print_colors () {
+    echo ""
+    echo "! COLORS !"
+    for i in $(seq 0 15); do
+        eval "tmp=\$c$i"
+        if [ "$i" -lt 10 ]; then
+            echo "#define c0$i $tmp"
+        else
+            echo "#define c$i $tmp"
+        fi
+    done
+    echo ""
+    for i in $(seq 0 15); do
+        if [ "$i" -lt 10 ]; then
+            echo "*.color$i:    c0$i"
+        else
+            echo "*.color$i:    c$i"
+        fi
+    done
+}
+
+copy_comments () {
+    echo "! $(basename "$FILENAME")"
+    echo "!"
+    grep ! "$FILENAME"
+}
+
+# Main functionality. Evaluates the given arguments.
+
+main () {
+    FILENAME=$1
+
+    copy_comments
+    assign_colors
+    print_colors
+}
+
+main "$@"
