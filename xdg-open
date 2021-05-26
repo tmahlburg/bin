@@ -27,16 +27,18 @@ case "${1%%:*}" in
 		exec qpdfview "$1"
 		;;
 	*.gif|*.jpg|*.png|*.jpeg|*.webp|*.tif|*.tiff)
-		exec qview "$1"
+		exec qimgv "$1"
 		;;
-  *.mp4|*.mkv|*.3gp|*.avi)
-    exec mpv "$1"
+	*.mp4|*.mkv|*.3gp|*.avi)
+		exec mpv "$1"
+		;;
 	mailto)
 		exec thunderbird "$1"
 		;;
 	*.mkv|*.mp4|*.avi|*.mov|*.3gp|*.webm|*.wmv)
 		exec mpv "$1"
 		;;
+
 	*)
 		if file "$1" | grep text ; then
 			exec alacritty -e kak "$1"
