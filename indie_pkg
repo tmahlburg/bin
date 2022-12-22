@@ -1,0 +1,65 @@
+#! /bin/sh
+
+#####################################################
+# Name: indie_pkg
+#
+# Lists all manually installed packages on a void
+# linux installation, that no other package depends
+# on.
+#
+# Usage: indie_pkg [-h]
+# Depends: xbps-query, grep
+#
+# License: ISC
+#
+# Version: 0.1
+# Author: Till Mahlburg
+# Date of Creation: 2022-12-22
+######################################################
+
+# Functions
+
+usage () {
+cat <<- EOF
+usage: $(basename "$0") [-h]
+
+Lists all manually installed packages on a void
+linux installation, that no other package depends
+on.
+
+OPTIONS:
+    -h shows this help
+EOF
+}
+
+# Main functionality. Evaluates the given arguments.
+
+main () {
+    while getopts "h" opt; do
+        case $opt in
+            h )     usage ;;
+            \? )    usage
+                    exit 1 ;;
+            esac
+    done
+    shift $((OPTIND - 1))
+
+	local manual_pkgs
+	manual_pkgs="$(xbps-query -m)"
+
+	for pkg in $manual_pkgs ; do
+		local rev_deps
+		rev_deps="$(xbps-query -X "$pkg")"
+		if [ -n "$rev_deps" ]; then
+			for rev_deps in $(xbps-query -X "$pkg") ; do
+				if echo "$manual_pkgs" | grep -q "$rev_deps" ; then
+					break
+				fi
+				echo "$pkg"
+			done
+		else
+			echo "$pkg"
+		fi
+	done
+}
+main "$@"
