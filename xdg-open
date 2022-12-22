@@ -26,7 +26,7 @@ case "${1%%:*}" in
 	*.pdf)
 		exec qpdfview "$1"
 		;;
-	*.gif|*.jpg|*.png|*.jpeg|*.webp|*.tif|*.tiff)
+	*.gif|*.jpg|*.png|*.jpeg|*.webp|*.tif|*.tiff|*.bmp)
 		exec qimgv "$1"
 		;;
 	*.mp4|*.mkv|*.3gp|*.avi)
@@ -38,12 +38,15 @@ case "${1%%:*}" in
 	*.mkv|*.mp4|*.avi|*.mov|*.3gp|*.webm|*.wmv)
 		exec mpv "$1"
 		;;
-
+	*.iso)
+		dev=$(udisksctl loop-setup -r -f "$1")
+		exec udisksctl mount -b "$dev"
+		;;
 	*)
 		if file "$1" | grep text ; then
 			exec alacritty -e kak "$1"
 	    fi
-		test -d "$1" && exec pcmanfm-qt "$1"
+		test -d "$1" && XDG_CURRENT_DESKTOP=GNOME exec python3 -m tfm "$1"
 		exec /usr/bin/xdg-open "$@"
 		;;
 esac
