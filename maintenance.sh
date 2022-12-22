@@ -44,7 +44,7 @@ report () {
     echo "* System Maintenance Report $current_date *"
     echo "****************************************"
     echo ""
-    echo "Failed services:"
+    echo "failed services:"
     echo ""
     if [ "$service_manager" = "systemd" ]; then
         systemctl --failed
@@ -55,7 +55,7 @@ report () {
     fi
     echo ""
     echo "****************************************"
-    echo "High priority errors:"
+    echo "high priority errors:"
     echo ""
     if [ "$service_manager" = "systemd" ]; then
         journalctl -p 3 -xb --no-pager
@@ -66,7 +66,7 @@ report () {
     fi
     echo ""
     echo "****************************************"
-    echo "Broken symlinks:"
+    echo "broken symlinks:"
     echo ""
     find /home -xtype l -print
     find /opt -xtype l -print
@@ -91,9 +91,26 @@ report () {
     if [ -e /usr/bin/xbps-install ]; then
         echo ""
         echo "****************************************"
-        echo "broken packages"
+        echo ".new files:"
+        echo ""
+        xdiff -l
+        echo ""
+        echo "****************************************"
+        echo "broken packages:"
         echo ""
         xbps-pkgdb -a
+        echo ""
+        echo "****************************************"
+        echo "applications needing restarts:"
+        echo ""
+        xcheckrestart
+        if  command -v indie_pkg > /dev/null; then
+			echo ""
+        	echo "****************************************"
+        	echo "Packages not required by any other package:"
+        	echo ""
+			indie_pkg
+		fi
     fi
 }
 
