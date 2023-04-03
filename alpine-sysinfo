@@ -23,7 +23,7 @@ get_os_ver () {
 # get newest OS version via curl from the "latest-releses.yaml" file of the alpine download mirror server
 get_os_ver_newest () {
     local os_ver_newest
-    os_ver_newest=$(curl -s http://dl-4.alpinelinux.org/alpine/latest-stable/releases/armhf/latest-releases.yaml | \
+    os_ver_newest=$(curl -s http://dl-cdn.alpinelinux.org/alpine/latest-stable/releases/aarch64/latest-releases.yaml | \
                     grep "version: " | \
                     tail -1)
     os_ver_newest=${os_ver_newest#*: }
@@ -105,7 +105,7 @@ get_openvpn_status () {
 # get free space in human readible format on the external drive via df
 get_free_hdd () {
     local free_hdd
-    free_hdd=$(df -h /dev/sda1 | awk 'FNR == 2 {print $4}')
+    free_hdd=$(df -h /dev/sda2 | awk 'FNR == 2 {print $4}')
     echo "$free_hdd"
 }
 
