@@ -90,19 +90,18 @@ get_ssh_status () {
     echo "$ssh_status"
 }
 
-# get syncthing status via rc-status
-get_syncthing_status () {
-	local syncthing_status
-	if rc-status -c | grep -q syncthing; then
-		syncthing_status="crashed"
-	elif rc-status | grep -q syncthing; then
-		syncthing_status="running"
-	else
-		syncthing_status="not running"
-	fi
-	echo "$syncthing_status"
+# get openvpn status via rc-status
+get_openvpn_status () {
+    local openvpn_status
+    if rc-status -c | grep -q openvpn; then
+        openvpn_status="crashed"
+    elif rc-status | grep -q openvpn; then
+        openvpn_status="running"
+    else
+        openvpn_status="not running"
+    fi
+    echo "$openvpn_status"
 }
-
 # get free space in human readible format on the external drive via df
 get_free_hdd () {
     local free_hdd
@@ -134,6 +133,13 @@ get_local_ip () {
     local localip
     localip=$(ip route get 1 | cut -d ' ' -f 8)
     echo "$localip"
+}
+
+# get mullvad connection status
+get_mullvad_status () {
+	local mullvad_status
+	mullvad_status="$(https://am.i.mullvad.net/connected)"
+	echo "$mullvad_status"
 }
 
 main () {
@@ -170,6 +176,7 @@ main () {
     echo "Kernel: $(get_kernel_ver)"
     echo "Hostname: $(get_hostname)"
     echo "Local IP: $(get_local_ip)"
+    echo "$(get_mullvad_status)"
     echo "Uptime: $(get_uptime)"
     echo "Shell: $(get_shell)"
     echo "CPU temp: $(get_cpu_temp)°C"
@@ -193,13 +200,13 @@ main () {
         * )             color=$yellow ;;
     esac
     printf "SSHD status: ${color}%s${no_color}\n" "${sshd_status}"
-    local syncthing_status
-    syncthing_status=$(get_syncthing_status)
-    case "$syncthing_status" in
+    local openvpn_status
+    openvpn_status=$(get_openvpn_status)
+    case "$openvpn_status" in
         "running" )     color=$green ;;
         "crashed" )     color=$red ;;
         * )             color=$yellow ;;
     esac
-    printf "syncthing status: ${color}%s${no_color}\n" "${syncthing_status}"
+    printf "OpenVPN status: ${color}%s${no_color}\n" "${openvpn_status}"
 }
 main
