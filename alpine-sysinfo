@@ -131,14 +131,16 @@ print_header () {
 # get the local ip via the ip route and the cut command
 get_local_ip () {
     local localip
-    localip=$(ip route get 1 | cut -d ' ' -f 8)
+#    localip=$(ip route get 1 | cut -d ' ' -f 8)
+    localip=$(ifconfig eth0 | grep -i mask | awk '{print $2}'| cut -f2 -d:
+)
     echo "$localip"
 }
 
 # get mullvad connection status
 get_mullvad_status () {
 	local mullvad_status
-	mullvad_status="$(https://am.i.mullvad.net/connected)"
+	mullvad_status="$(curl -s https://am.i.mullvad.net/connected | awk  'BEGIN{RS="\\. "}1')"
 	echo "$mullvad_status"
 }
 
