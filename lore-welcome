@@ -1,0 +1,69 @@
+#! /bin/sh
+#
+# little welcome script for my minecraft server
+
+#
+cat << EOL
+    [47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[0m
+    [1m[47m:[107m'[102m#[102m#[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[107m'[102m#[102m#[102m#[102m#[102m#[102m#[102m#[47m:[47m:[107m'[102m#[102m#[102m#[102m#[102m#[102m#[102m#[102m#[47m:[47m:[107m'[102m#[102m#[102m#[102m#[102m#[102m#[102m#[102m#[47m:[0m
+    [1m[47m:[107m [102m#[102m#[47m:[47m:[47m:[47m:[47m:[47m:[47m:[107m'[102m#[102m#[107m.[107m.[107m.[107m.[107m [102m#[102m#[47m:[107m [102m#[102m#[107m.[107m.[107m.[107m.[107m [102m#[102m#[47m:[107m [102m#[102m#[107m.[107m.[107m.[107m.[107m.[47m:[47m:[0m
+    [1m[47m:[107m [102m#[102m#[47m:[47m:[47m:[47m:[47m:[47m:[47m:[107m [102m#[102m#[47m:[47m:[47m:[47m:[107m [102m#[102m#[47m:[107m [102m#[102m#[47m:[47m:[47m:[47m:[107m [102m#[102m#[47m:[107m [102m#[102m#[47m:[47m:[47m:[47m:[47m:[47m:[47m:[0m
+    [1m[47m:[107m [102m#[102m#[47m:[47m:[47m:[47m:[47m:[47m:[47m:[107m [102m#[102m#[47m:[47m:[47m:[47m:[107m [102m#[102m#[47m:[107m [102m#[102m#[102m#[102m#[102m#[102m#[102m#[102m#[47m:[47m:[107m [102m#[102m#[102m#[102m#[102m#[102m#[47m:[47m:[47m:[0m
+    [1m[47m:[107m [102m#[102m#[47m:[47m:[47m:[47m:[47m:[47m:[47m:[107m [102m#[102m#[47m:[47m:[47m:[47m:[107m [102m#[102m#[47m:[107m [102m#[102m#[107m.[107m.[107m [102m#[102m#[47m:[47m:[47m:[107m [102m#[102m#[107m.[107m.[107m.[47m:[47m:[47m:[47m:[0m
+    [1m[47m:[107m [102m#[102m#[47m:[47m:[47m:[47m:[47m:[47m:[47m:[107m [102m#[102m#[47m:[47m:[47m:[47m:[107m [102m#[102m#[47m:[107m [102m#[102m#[47m:[47m:[107m.[107m [102m#[102m#[47m:[47m:[107m [102m#[102m#[47m:[47m:[47m:[47m:[47m:[47m:[47m:[0m
+    [1m[47m:[107m [102m#[102m#[102m#[102m#[102m#[102m#[102m#[102m#[47m:[107m.[107m [102m#[102m#[102m#[102m#[102m#[102m#[102m#[47m:[47m:[107m [102m#[102m#[47m:[47m:[47m:[107m.[107m [102m#[102m#[47m:[107m [102m#[102m#[102m#[102m#[102m#[102m#[102m#[102m#[47m:[0m
+    [1m[47m:[107m.[107m.[107m.[107m.[107m.[107m.[107m.[107m.[47m:[47m:[47m:[107m.[107m.[107m.[107m.[107m.[107m.[107m.[47m:[47m:[47m:[107m.[107m.[47m:[47m:[47m:[47m:[47m:[107m.[107m.[47m:[47m:[107m.[107m.[107m.[107m.[107m.[107m.[107m.[107m.[47m:[47m:[0m
+    [1m[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[0m
+
+    Hello, I am [1mLORE[0m :)
+
+EOL
+
+if rc-status | grep -q minecraft ; then
+    printf "\tI run a little minecraft world for you and your friends. ^.^\n\n"
+elif rc-status -c | grep -q minecraft ; then
+	printf "\tThe minecraft world, I'm running is in big trouble! It crashed! °o°\n\n"
+else
+	printf "\tThe minecraft world I'm usually running is asleep right now... -.-\n\n"
+fi
+
+# get the cpu temp
+cpu_temp=$(cat /sys/class/thermal/thermal_zone*/temp)
+cpu_temp=$((cpu_temp / 1000))
+
+if [ $cpu_temp -lt 100 ] ; then
+	case $cpu_temp in
+		[1-3]*)
+			cpu_temp="pretty chilly" ;;
+		[4-5]*)
+			cpu_temp="cozy" ;;
+		[6-7]*)
+			cpu_temp="pretty hot" ;;
+		[8-9]*)
+			cpu_temp="way too hot" ;;
+	esac
+else
+	cpu_temp="dangerously hot"
+fi
+
+# get the version info
+os_ver=$(grep "Alpine Linux" /etc/issue)
+os_ver=${os_ver#*Linux }
+
+os_ver_newest=$(curl -s http://dl-cdn.alpinelinux.org/alpine/latest-stable/releases/aarch64/latest-releases.yaml | \
+                grep "version: " | \
+                tail -1)
+os_ver_newest=${os_ver_newest#*: }
+os_ver_newest=${os_ver_newest%.*}
+
+if [ "${os_ver_newest%%.*}" -ne "${os_ver%%.*}" ]; then
+   alpine_ver="so outdated"
+elif [ "${os_ver_newest#*.}" -ne "${os_ver#*.}" ]; then
+    color="a bit older"
+else
+    color="shiny and new"
+fi
+
+printf "\tIt's %s in here, my software is %s and I live at %s.\n\n" "$cpu_temp" "$alpine_ver" "$(ifconfig eth0 | grep -i mask | awk '{print $2}'| cut -f2 -d:)"
+
+printf "\tHave fun and don't break anything!\n"
