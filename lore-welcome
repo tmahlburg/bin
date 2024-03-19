@@ -28,8 +28,8 @@ else
 fi
 
 # get the cpu temp
-cpu_temp=$(cat /sys/class/thermal/thermal_zone*/temp)
-cpu_temp=$((cpu_temp / 1000))
+cpu_temp_k=$(cat /sys/class/thermal/thermal_zone*/temp)
+cpu_temp=$((cpu_temp_k / 1000))
 
 if [ $cpu_temp -lt 100 ] ; then
 	case $cpu_temp in
