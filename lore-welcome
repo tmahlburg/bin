@@ -1,6 +1,7 @@
 #! /bin/sh
 #
 # little welcome script for my minecraft server
+# author: Till Mahlburg
 
 cat <<EOL
     [47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[47m:[0m

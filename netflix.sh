@@ -1,4 +1,8 @@
 #!/bin/sh
+#
+# author: Till Mahlburg
+# license: CC0
+#
 
 if pgrep sway ; then
 	swaymsg exec "vivaldi-stable --new-window netflix.com"

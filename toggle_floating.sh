@@ -1,4 +1,12 @@
 #!/bin/sh
+#
+# depends: sway, jq
+#
+# enables shadows for floating windows and disables them
+# for non-floating windows
+#
+# author: Till Mahlburg
+# license: CC0
 
 is_floating () {
 	local window_type

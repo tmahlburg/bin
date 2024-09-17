@@ -8,6 +8,9 @@
 # Usage: mktb.sh <name of the module to test>
 #
 # Date of Creation: 2019-08-30
+#
+# Author: Till Mahlburg
+# License: GPLv3
 ######################################################
 
 # Functions

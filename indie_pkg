@@ -10,7 +10,7 @@
 # Usage: indie_pkg [-h]
 # Depends: xbps-query, grep
 #
-# License: ISC
+# License: GPLv3
 #
 # Version: 0.1
 # Author: Till Mahlburg
