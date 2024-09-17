@@ -6,6 +6,7 @@ To help you, I made a list with short descriptions of the scripts, that are usef
 - **alpine-sysinfo** - a nice looking sysinfo script, specifically for alpine linux.
 - **benchscript** - allows you to launch an application multiple times trough a terminal of your choosing, and times that process. Note that the launched application needs to close itself.
 - **create_script.sh** - prints the skeleton of a shellscript to stdout.
+- **indie_pkg** - prints a list of all manually installed packages, which no other packages depend on. it works on voidlinux systems.
 - **maintenance.sh** - combines different tasks of system maintenance on an arch, manjaro or voidlinux systems. It can automate package- and mirror-related tasks as well as generating a report on the general system health/status.
 - **xtc** - converts a common .Xresources colorscheme to my preferred format.
 
