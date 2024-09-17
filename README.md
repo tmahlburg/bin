@@ -4,9 +4,9 @@ This repository contains all the little helper programs I got from somewhere els
 To help you, I made a list with short descriptions of the scripts, that are useful for others.
 ### The most universally useful
 - **alpine-sysinfo** - a nice looking sysinfo script, specifically for alpine linux.
-- **benchscript** - allows you to launch an application multiple times trough a terminal of your choosing, and times that process. Note that the launches application needs to close itself.
+- **benchscript** - allows you to launch an application multiple times trough a terminal of your choosing, and times that process. Note that the launched application needs to close itself.
 - **create_script.sh** - prints the skeleton of a shellscript to stdout.
-- **maintenance.sh** - combines different tasks of system maintenance on an arch, manjaro or voidlinux system. It can automate package- and mirror-related tasks as well as generating a report on the general system health/status.
-- **xtc** - converts a common .Xresources colorscheme to my preferred format. See also [this blog post, explaining it](https://asyncial.github.io/blog/organize-your-.xresources/)
+- **maintenance.sh** - combines different tasks of system maintenance on an arch, manjaro or voidlinux systems. It can automate package- and mirror-related tasks as well as generating a report on the general system health/status.
+- **xtc** - converts a common .Xresources colorscheme to my preferred format.
 
 The rest are mostly collected and edited from various or pretty specific. Look at the source, if you are interested anyway.
