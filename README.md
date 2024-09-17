@@ -1,5 +1,5 @@
 ## bin
-This repository contains all the little helper programs I got from somewhere else or wrote myself. If the script is from someone else, there is a source information in the top comment. The scripts I wrote myself are POSIX-compatible, except for the usage of the 'local' which is supported on almost every modern bourne-like shell (bash, ash, dash, ksh). Most of them are licensed with the GPLv3 (see LICENSE), but some are under CC0. The license in used is written in each source file.
+This repository contains all the little helper programs I got from somewhere else or wrote myself. If the script is from someone else, there is a source information in the top comment. The scripts I wrote myself are POSIX-compatible, except for the usage of the 'local' which is supported on almost every modern bourne-like shell (bash, ash, dash, ksh). Most of them are licensed with the GPLv3 (see LICENSE), but some are under CC0. The license used is written in each source file.
 
 To help you, I made a list with short descriptions of the scripts, that are useful for others.
 ### The most universally useful
