@@ -1,0 +1,17 @@
+#!/bin/sh
+# simple script used to run graphical X applications as root in wayland
+# usage: wsudo <application>
+# dependencies: xhost, sudo
+# author: Till Mahlburg
+# license: CC0
+
+# only run if <application> argument is given
+if test -n "$1" ;  then
+	xhost +SI:localuser:root
+    doas "$1"
+    # revoke root access to X
+    xhost -SI:localuser:root
+else
+	echo "Usage: $(basename $0) <application>"
+    exit 1
+fi
