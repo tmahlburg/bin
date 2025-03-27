@@ -105,7 +105,7 @@ get_openvpn_status () {
 # get free space in human readible format on the external drive via df
 get_free_hdd () {
     local free_hdd
-    free_hdd=$(df -h /dev/sda2 | awk 'FNR == 2 {print $4}')
+    free_hdd=$(df -h /dev/disk/by-uuid/7484F93584F8FA86 | awk 'FNR == 2 {print $4}')
     echo "$free_hdd"
 }
 
@@ -138,9 +138,9 @@ get_local_ip () {
 
 # get mullvad connection status
 get_mullvad_status () {
-	local mullvad_status
-	mullvad_status="$(curl -s https://am.i.mullvad.net/connected | awk  'BEGIN{RS="\\. "}1')"
-	echo "$mullvad_status"
+    local mullvad_status
+    mullvad_status="$(curl -s https://am.i.mullvad.net/connected | awk  'BEGIN{RS="\\. "}1')"
+    echo "$mullvad_status"
 }
 
 main () {
