@@ -64,44 +64,22 @@ get_uptime () {
     echo "$uptime"
 }
 
-# get samba status via rc-status
-get_smb_status () {
-    local smb_status
-    if rc-status -c | grep -q samba; then
-        smb_status="crashed"
-    elif rc-status | grep -q samba; then
-        smb_status="running"
-    else
-        smb_status="not running"
-    fi
-    echo "$smb_status"
+# get service status via rc-status
+# arguments: $1 - service name
+get_srv_status () {
+	local srv
+	srv="$1"
+	local status
+	if rc-status -c | grep -q "$srv" ; then
+		status="crashed"
+	elif rc-status | grep -q "$srv" ; then
+		status="running"
+	else
+		status="not running"
+	fi
+	echo "$status"
 }
 
-# get ssh status via rc-status
-get_ssh_status () {
-    local ssh_status
-    if rc-status -c | grep -q sshd; then
-        ssh_status="crashed"
-    elif rc-status | grep -q sshd; then
-        ssh_status="running"
-    else
-        ssh_status="not running"
-    fi
-    echo "$ssh_status"
-}
-
-# get openvpn status via rc-status
-get_openvpn_status () {
-    local openvpn_status
-    if rc-status -c | grep -q openvpn; then
-        openvpn_status="crashed"
-    elif rc-status | grep -q openvpn; then
-        openvpn_status="running"
-    else
-        openvpn_status="not running"
-    fi
-    echo "$openvpn_status"
-}
 # get free space in human readible format on the external drive via df
 get_free_hdd () {
     local free_hdd
@@ -186,7 +164,7 @@ main () {
     echo "HDD free: $(get_free_hdd)iB"
     # check smb status
     local smb_status
-    smb_status=$(get_smb_status)
+    smb_status=$(get_srv_status samba)
     case "$smb_status" in
         "running" )     color=$green ;;
         "crashed" )     color=$red ;;
@@ -194,7 +172,7 @@ main () {
     esac
     printf "SMB status: ${color}%s${no_color}\n" "${smb_status}"
     local sshd_status
-    sshd_status=$(get_ssh_status)
+    sshd_status=$(get_srv_status sshd)
     case "$sshd_status" in
         "running" )     color=$green ;;
         "crashed" )     color=$red ;;
@@ -202,7 +180,7 @@ main () {
     esac
     printf "SSHD status: ${color}%s${no_color}\n" "${sshd_status}"
     local openvpn_status
-    openvpn_status=$(get_openvpn_status)
+    openvpn_status=$(get_srv_status openvpn)
     case "$openvpn_status" in
         "running" )     color=$green ;;
         "crashed" )     color=$red ;;
