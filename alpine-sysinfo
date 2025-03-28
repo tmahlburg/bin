@@ -164,7 +164,7 @@ main () {
     echo "HDD free: $(get_free_hdd)iB"
     # check smb status
     local smb_status
-    smb_status=$(get_srv_status smb)
+    smb_status=$(get_srv_status samba)
     case "$smb_status" in
         "running" )     color=$green ;;
         "crashed" )     color=$red ;;
