@@ -171,6 +171,22 @@ main () {
         * )             color=$yellow ;;
     esac
     printf "SMB status: ${color}%s${no_color}\n" "${smb_status}"
+    local nfs_status
+    nfs_status=$(get_srv_status nfs)
+    case "$nfs_status" in
+        "running" )     color=$green ;;
+        "crashed" )     color=$red ;;
+        * )             color=$yellow ;;
+    esac
+    printf "NFS status: ${color}%s${no_color}\n" "${openvpn_status}"
+    local syncthing_status
+    syncthing_status=$(get_srv_status syncthing)
+    case "$syncthing_status" in
+        "running" )     color=$green ;;
+        "crashed" )     color=$red ;;
+        * )             color=$yellow ;;
+    esac
+    printf "syncthing status: ${color}%s${no_color}\n" "${syncthing_status}"
     local sshd_status
     sshd_status=$(get_srv_status sshd)
     case "$sshd_status" in
@@ -187,5 +203,13 @@ main () {
         * )             color=$yellow ;;
     esac
     printf "OpenVPN status: ${color}%s${no_color}\n" "${openvpn_status}"
+    local lighthttpd_status
+    lighthttpd_status=$(get_srv_status lighthttpd)
+    case "$lighthttpd_status" in
+        "running" )     color=$green ;;
+        "crashed" )     color=$red ;;
+        * )             color=$yellow ;;
+    esac
+    printf "lighthttpd status: ${color}%s${no_color}\n" "${lighthttpd_status}"
 }
 main
