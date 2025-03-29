@@ -24,10 +24,10 @@ case "${1%%:*}" in
 		fi
 		;;
 	*.pdf)
-		exec qpdfview "$1"
+		exec xpdf "$1"
 		;;
 	*.gif|*.jpg|*.png|*.jpeg|*.webp|*.tif|*.tiff|*.bmp)
-		exec qimgv "$1"
+		exec qview "$1"
 		;;
 	*.mp4|*.mkv|*.3gp|*.avi)
 		exec mpv "$1"
