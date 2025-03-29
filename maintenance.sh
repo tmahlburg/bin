@@ -1,5 +1,5 @@
 #!/bin/sh
-## Arch Linux / Manjaro / Netrunner / Void Linux System Maintenance
+## Arch Linux / Manjaro / Void Linux System Maintenance
 ## Usage: maintenance.sh [options]
 ## Options: -r  create a system maintenance report, needs no user input, no changes are made
 ##          -p  invoke package management related maintenance tasks, CHANGES ARE MADE, requires root, pacman-based and xbps only
@@ -13,7 +13,7 @@ usage () {
 	cat <<- EOF
         usage: $(basename $0) [options]
 
-	Script to automate the maintenance tasks of an archlinux or manjaro installation.
+	Script to automate the maintenance tasks of an archlinux, manjaro or voidlinux installation.
 
 	OPTIONS:
 	    -r  create a system maintenance report, needs no user input, no changes are made
@@ -98,7 +98,7 @@ report () {
         echo "****************************************"
         echo "broken packages:"
         echo ""
-        xbps-pkgdb -a
+        xbps-pkgdb -a 2>&1
         echo ""
         echo "****************************************"
         echo "applications needing restarts:"
