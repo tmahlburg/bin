@@ -23,7 +23,11 @@ pid="$(swaymsg -t get_tree | jq '.. | select(.type?) | select(.focused==true) | 
 if is_floating ; then
 	swaymsg floating disable
 	swaymsg [pid="$pid"] shadows disable
+	swaymsg [pid="$pid"] border pixel 1
+	swaymsg [pid="$pid"] floating_border pixel 1
 else
 	swaymsg floating enable
 	swaymsg [pid="$pid"] shadows enable
+	swaymsg [pid="$pid"] border normal 1
+	swaymsg [pid="$pid"] floating_border normal 1
 fi
