@@ -1,0 +1,43 @@
+#!/bin/sh
+
+# prints system information
+# TODO - general:
+# 	Network:
+# 	* hostname
+#	* internal IP
+# 	* external IP
+#	* mullvad connection status
+# 	* XXX: home VPN connection status
+#   * XXX: link speed
+#	Hardware:
+#	* CPU, Architecture
+#	* RAM free / max
+#	* Mountpoints, Capacity, Filesystems in use
+#	Software:
+#	* OS + Version (+ Upgrade availability check)
+#	* Kernel + Version
+#	* Service status
+#	* uptime
+# TODO - specific:
+# 	Per OS:
+# 	* Upgrade availability and importance
+# 	* Query service health
+# 	Per Host:
+# 	* Quote or Quip
+# 	* ASCII Art
+# 	* specific services or information
+
+generic () {
+cat <<- EOF
+	Hallo $USER. Ich bin $(hostname), auch bekannt als $(hostname -I)
+EOF
+}
+
+main () {
+	case $(hostname) in
+		inara)		inara	;;
+		jayne)		jayne	;;
+		saffron) 	saffron	;;
+		yolanda)	yolanda	;;
+		*) 			generic	;;
+}
